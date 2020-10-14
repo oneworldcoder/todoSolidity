@@ -41,15 +41,13 @@ contract Ownable {
 
 
 contract EtherSendWithdraw is Ownable{
-    uint256 _amount = 0;
     
-    function sendEth() public payable {
-        _amount = _amount +msg.value;
-    }
+    uint balance = msg.value;
     
-    
-    function withdraw() public onlyOwner {
-        address payable _owner = owner();
-        _owner.transfer(address(this).balance);
+    function withdrawAll() public onlyOwner returns(uint) {
+      uint toTransfer = balance;
+      balance = 0;
+      msg.sender.transfer(toTransfer);
+      return toTransfer;
     }
 }
